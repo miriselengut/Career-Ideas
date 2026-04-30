@@ -43,19 +43,22 @@ if len(three_skills) == 3 and education_level:
 
     with col2:
         with st.container(border = True):
-            st.subheader(f"📌 Job: {current_job.get("job_name")}", text_alignment="center")
-            st.text(f"💰 Salary: {current_job.get("salary")}", text_alignment="center")
+            st.subheader(f"📌 {current_job.get("job_name")}", text_alignment="center")
+            st.text(f"💰 {current_job.get("salary")}", text_alignment="center")
+            st.text("Many jobs avalibale" if int(current_job.get("openings")) > 10 else "Not many jobs avalibe")
 
 
     #Navigation buttons
-    st.divider()
+    
     with col1:
+        st.divider()
         if st.button("◀️ Prev"):
             if st.session_state.job_index > 0:
                 st.session_state.job_index -=1
 
     with col3:
-        if st.button("Next ▶️"):
+        st.divider()
+        if st.button("▶️ Next"):
             if st.session_state.job_index < len(job) - 1:
                 st.session_state.job_index +=1
 

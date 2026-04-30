@@ -42,7 +42,6 @@ def get_data(lines):
     for line in lines:
         cols = line.find_all("td")
         names = line.find("p")
-        "job_name" = names.get_text()
         data.append({
             "job_name": "".join(c for c in names.get_text() if not (c.isdigit() or c in "[]")),
             "matrix_code": cols[0].get_text(), 
