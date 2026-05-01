@@ -24,6 +24,17 @@ DEFAULT_HEADERS = {
     "Upgrade-Insecure-Requests": "1"
 }
 
+edu_level = {
+    "No formal educational credential": 1,
+    "High school diploma or equivalent": 2,
+    "Some college, no degree": 3,
+    "Postsecondary nondegree award": 4,
+    "Associate's degree": 5,
+    "Bachelor's degree": 6,
+    "Master's degree": 7,
+    "Doctoral or professional degree": 8
+}
+
 def scrape(url):
     try:
         html = requests.get(url,headers=DEFAULT_HEADERS,timeout=20)
@@ -36,22 +47,50 @@ def scrape(url):
         print(f"Error fetching the page: {e}")
         return
 
+def scrape_description(url):
+    try:
+        html = requests.get(url,headers=DEFAULT_HEADERS,timeout=20)
+        html.raise_for_status()
+        soup = BeautifulSoup(html.text, 'html.parser')
+        tab = soup.find("div", id="tab-1")
+        if tab:
+            lines = tab.find_all("p")
+            return lines[1:4]
+        else: 
+            return ["No lines 1", "No lines 2"]
+    except requests.RequestException as e:
+        print(f"Error fetching the page: {e}")
+        return
+
 def get_data(lines):
     data = []
-    # put data from URL into data list
-    for line in lines:
+    # put data from URL into data list        
+    for i, line in enumerate(lines):
+        print(f"Processing row {i+1}/{len(lines)}")
         cols = line.find_all("td")
         names = line.find("p")
+        edu_rank = edu_level.get(cols[8].get_text().strip(), 0)
+        link = (line.find("a", href=True) or {}).get("href")
+        if link and link.startswith("https://www.bls.gov/ooh"):
+            info = scrape_description(link)
+            description = info[0].get_text()
+            work_environment = info[1].get_text()
+        else:
+            description = "No information avaliable"
+            work_environment = "No information avaliable"
         data.append({
             "job_name": "".join(c for c in names.get_text() if not (c.isdigit() or c in "[]")),
             "matrix_code": cols[0].get_text(), 
-            "self_employed": cols[5].get_text(), 
+            "self_employed": float("".join(c for c in cols[5].get_text() if c.isdigit() or c == ".") or 0),
             "openings": cols[6].get_text(), 
-            "salary": cols[7].get_text(),
+            "salary": int("".join(c for c in cols[7].get_text() if c.isdigit()) or 0),
             "education_needed": cols[8].get_text(),
+            "education_rank": edu_rank, 
             "skill_one": cols[9].get_text(),
             "skill_two": cols[10].get_text(),
             "skill_three": cols[11].get_text(),
+            "description": description, 
+            "work_environment": work_environment, 
         })
     return data
 
@@ -59,3 +98,9 @@ def return_data():
     lines = scrape("https://www.bls.gov/emp/tables/top-skills-by-detailed-occupation.htm")
     data = get_data(lines)
     return data
+
+def main():
+    return_data()
+     
+if __name__ == "__main__":
+    main()

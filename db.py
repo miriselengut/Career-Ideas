@@ -12,10 +12,13 @@ def create_table():
         self_employed INT NOT NULL,
         openings TEXT NOT NULL,
         salary INT NOT NULL,
-        education_needed INT NOT NULL,
+        education_needed TEXT NOT NULL,
+        edu_rank INT NOT NULL, 
         skill_one TEXT NOT NULL,
-        skill_two INT NOT NULL,
-        skill_three INT NOT NULL
+        skill_two TEXT NOT NULL,
+        skill_three TEXT NOT NULL,
+        description TEXT NOT NULL,
+        work_environment TEXT NOT NULL
     )
     """)
     conn.commit()
@@ -25,9 +28,10 @@ def load_db(data):
     conn = sqlite3.connect("/workspaces/Career-Ideas/job_list.db")
     cur = conn.cursor()
 
-    for item in data:
-        cur.execute("INSERT INTO job_list (job_name, matrix_code, self_employed, openings, salary, education_needed, skill_one, skill_two, skill_three) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (item["job_name"], item["matrix_code"], item["self_employed"], item["openings"], item["salary"], item["education_needed"], item["skill_one"], item["skill_two"], item["skill_three"]))
+    for i, item in enumerate(data):
+        print(f"Processing row {i+1}/{len(data)} in data")
+        cur.execute("INSERT INTO job_list (job_name, matrix_code, self_employed, openings, salary, education_needed, edu_rank, skill_one, skill_two, skill_three, description, work_environment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (item["job_name"], item["matrix_code"], item["self_employed"], item["openings"], item["salary"], item["education_needed"], item["education_rank"], item["skill_one"], item["skill_two"], item["skill_three"], item["description"], item["work_environment"]))
  
     conn.commit()
     conn.close()
