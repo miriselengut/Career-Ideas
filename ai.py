@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import AzureOpenAI
 
-def ai_convo(education_level, salary, skill_one, skill_two, skill_three):
+def ai_convo(education_level, salary, skill_one, skill_two, skill_three, query_response):
     openai_api_key = st.secrets["AZURE_OPENAI_API_KEY"]
     openai_api_endpoint = st.secrets["AZURE_OPENAI_ENDPOINT"]
 
@@ -18,10 +18,10 @@ def ai_convo(education_level, salary, skill_one, skill_two, skill_three):
         st.session_state.messages = []
 
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+        with st.chat_message(message["role"], avatar = "🕵️"):
             st.markdown(message["content"])
 
-    if prompt := st.chat_input("Have a question?"):
+    if prompt := st.chat_input("Ask me more!"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -33,7 +33,8 @@ def ai_convo(education_level, salary, skill_one, skill_two, skill_three):
                                             You can discuss things like salary, whether or not it is realistic, 
                                             skill set and previous education. The user's previous education consists of
                                             {education_level}, wants a salary of {salary}, skill set includes
-                                            {skill_one}, {skill_two} and {skill_three}. You may discuss mention things like work environment 
+                                            {skill_one}, {skill_two} and {skill_three}. The current jobs that came up for the
+                                            user are {query_response}. You may discuss mention things like work environment 
                                             and job description. If a user asks about something else, politely bring the 
                                             conversation back to careers.'''},
                 *[{"role": m["role"], "content": m["content"]}

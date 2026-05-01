@@ -28,8 +28,7 @@ def load_db(data):
     conn = sqlite3.connect("/workspaces/Career-Ideas/job_list.db")
     cur = conn.cursor()
 
-    for i, item in enumerate(data):
-        print(f"Processing row {i+1}/{len(data)} in data")
+    for item in data:
         cur.execute("INSERT INTO job_list (job_name, matrix_code, self_employed, openings, salary, education_needed, edu_rank, skill_one, skill_two, skill_three, description, work_environment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (item["job_name"], item["matrix_code"], item["self_employed"], item["openings"], item["salary"], item["education_needed"], item["education_rank"], item["skill_one"], item["skill_two"], item["skill_three"], item["description"], item["work_environment"]))
  

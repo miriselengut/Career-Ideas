@@ -19,9 +19,11 @@ def sample_data():
         "work_environment": "Top executives work in nearly every industry, for both small and large organizations. They often have irregular schedules, which may include working evenings and weekends. Travel is common, particularly for chief executives."
     }
 
+
 def test_query_pipeline():
     results = query_pipeline("Bachelor's degree", 49500, "Adaptability", "Leadership", "Problem solving and decision making")
     assert int(results[0]["salary"]) >= 49500
+
 
 def test_query_average_skill_with_education(sample_data):
     education_level = sample_data["education_needed"]

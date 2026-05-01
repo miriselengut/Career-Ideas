@@ -47,6 +47,7 @@ def scrape(url):
         print(f"Error fetching the page: {e}")
         return
 
+#nested scrape
 def scrape_description(url):
     try:
         html = requests.get(url,headers=DEFAULT_HEADERS,timeout=20)
@@ -64,12 +65,12 @@ def scrape_description(url):
 
 def get_data(lines):
     data = []
-    # put data from URL into data list        
-    for i, line in enumerate(lines):
-        print(f"Processing row {i+1}/{len(lines)}")
+    #put data from URL into data list        
+    for line in lines:
         cols = line.find_all("td")
         names = line.find("p")
         edu_rank = edu_level.get(cols[8].get_text().strip(), 0)
+        #get URL from OOCH Handbook
         link = (line.find("a", href=True) or {}).get("href")
         if link and link.startswith("https://www.bls.gov/ooh"):
             info = scrape_description(link)
@@ -78,6 +79,7 @@ def get_data(lines):
         else:
             description = "No information avaliable"
             work_environment = "No information avaliable"
+        #put information into dict
         data.append({
             "job_name": "".join(c for c in names.get_text() if not (c.isdigit() or c in "[]")),
             "matrix_code": cols[0].get_text(), 
@@ -98,9 +100,3 @@ def return_data():
     lines = scrape("https://www.bls.gov/emp/tables/top-skills-by-detailed-occupation.htm")
     data = get_data(lines)
     return data
-
-def main():
-    return_data()
-     
-if __name__ == "__main__":
-    main()

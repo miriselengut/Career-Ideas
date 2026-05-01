@@ -1,5 +1,5 @@
 import streamlit as st
-from logic import edu_level, all_skills, query_pipeline, query_average_skill_with_education, query_average_education_by_salary
+from logic import edu_level, all_skills, query_pipeline, query_average_skill_with_education
 from ai import ai_convo
 import pandas as pd
 from api import quit_rate_api
@@ -8,7 +8,6 @@ from api import quit_rate_api
 st.set_page_config(page_title = "Career Ideas", page_icon = "💼", layout = "wide")
 st.title("Career Ideas!",)
 
-st.write("Fill out the info in the side bar, so we can get started!")
 
 #tabs
 tab1, tab2, tab3 = st.tabs(["Find a job!", "Get data", "Ask AI"])
@@ -26,6 +25,12 @@ three_skills = st.sidebar.multiselect("Pick 3 skills that you have", all_skills,
 
 # wait for input 
 if len(three_skills) != 3: 
+    with tab1:
+        st.write("Fill out the info in the side bar, so we can get started!")
+    with tab2:
+        st.write("Fill out the info in the side bar, so we can get started!")
+    with tab3:
+        st.write("Fill out the info in the side bar, so we can get started!")
     st.stop()
 
 if not education_level:
@@ -38,8 +43,9 @@ filtered_data = query_pipeline(education_level, salary, skill_one, skill_two, sk
 
 #region Get Job Info (Tab 1)
 with tab1:
+
     # create columns to seperate data and navigation buttons
-    colbtn1, colbtn2, colbtn3 = st.columns([1, 6, 1])
+    colbtn1, colbtn2, colbtn3 = st.columns([.7, 6, .7])
     job = filtered_data
         
     # make sure there is a job that fits criteria 
@@ -57,7 +63,7 @@ with tab1:
 
     with colbtn1:
         st.space("xxlarge")
-        prev = st.button("◀️ \n Prev")
+        prev = st.button("◀️ Prev")
 
     with colbtn3:
         st.space("xxlarge")
@@ -96,8 +102,8 @@ with tab1:
 
 #region Get Visuals (Tab 2)
 with tab2:
-    edu = 1 if education_level != "No formal educational credential" else None
-    st.subheader("🛠️ Average skills needed in a job with" + (("a" + f"{education_level.lower()}") if edu else (f" {education_level.lower()}")), text_alignment="center")
+    edu = 1 if education_level != ("No formal educational credential" and "Some college, no degree") else None
+    st.subheader("🛠️ Average skills needed in a job with" + ((" a " + f"{education_level.lower()}") if edu else (f" {education_level.lower()}")), text_alignment="center")
     visual_skill_edu = query_average_skill_with_education(education_level)
     visual_skills = visual_skill_edu.keys()
     visual_education_needed = [edu for edu in visual_skill_edu.values()]
@@ -110,30 +116,27 @@ with tab2:
         })
 
     st.bar_chart(df, x = "Skills", y = "Average amount needed")
-
     st.space("medium")
-    # visual_edu_salary = query_average_education_by_salary(salary)
-    # st.subheader("🎓Average education needed by a job making $")
+    quit_btn = st.button("Okay, so you have a job?", icon = "🤔")
+    if quit_btn:
+        st.write("Don't get too excited...")
+        st.subheader("🛑 Average quit rates by period, according to the U.S. Bureau of Labor Statistics", text_alignment = "center")
 
-    st.space("medium")
-    st.subheader("🛑 Average quit rates by period, according to the BSL", text_alignment = "center")
-
-    quit_rates = quit_rate_api()
-    dates = []
-    value = []
-    for section in quit_rates:
-        dates.append(section["periodName"] + " " + section["year"][2:]) 
-        value.append(section["value"])
-    df = pd.DataFrame({"period": dates, "value": value})
-    df = df.set_index("period")
-    st.scatter_chart(df)
+        quit_rates = quit_rate_api()
+        dates = []
+        value = []
+        for section in quit_rates:
+            dates.append(section["periodName"] + " " + section["year"][2:]) 
+            value.append(section["value"])
+        df = pd.DataFrame({"period": dates, "value": value})
+        df = df.set_index("period")
+        st.scatter_chart(df)
 
 
 #endregion
 
 #region AI Conva (Tab 3)
 with tab3:
-    st.header("Ask me more!")
-
-    ai_convo()
+    st.space("medium")
+    ai_convo(education_level, salary, skill_one, skill_two, skill_three, filtered_data)
 #endregion

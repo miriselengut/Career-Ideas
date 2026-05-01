@@ -3,10 +3,13 @@ import json
 import sqlite3 as st
 
 def quit_rate_api():
-    headers = {'Content-type': 'application/json'}
-    data = json.dumps({"seriesid": ['JTS000000000000000JOR'],"startyear":"2011", "endyear":"2014"})
-    p = requests.post('https://api.bls.gov/publicAPI/v2/timeseries/data/', data=data, headers=headers)
-    json_data = json.loads(p.text)
+    try:
+        headers = {'Content-type': 'application/json'}
+        data = json.dumps({"seriesid": ['JTS000000000000000JOR'],"startyear":"2011", "endyear":"2014"})
+        p = requests.post('https://api.bls.gov/publicAPI/v2/timeseries/data/', data=data, headers=headers)
+        json_data = json.loads(p.text)
+    except requests.exceptions.RequestException:
+        return "No valid connection"
     if "message" in json_data and json_data["message"]:
         #if called too many time, can't reach api, return table to build on code until limit resets
         st.Error("API limit reach for the day. Try again later")
@@ -32,11 +35,3 @@ def quit_rate_api():
         return data_table
     except (KeyError, TypeError):
         return "Missing or incorrect results in response"
-
-info = quit_rate_api()
-dates = []
-value = []
-for section in info:
-    dates.append(section["period"] + " " + section["year"][2:]) 
-    value.append(section["value"])
-print(dates, value)

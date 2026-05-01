@@ -1,6 +1,6 @@
 import pytest
 import os
-from db import create_table, load_db
+from db import create_table
 import sqlite3
 
 @pytest.fixture
