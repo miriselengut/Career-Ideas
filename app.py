@@ -126,7 +126,7 @@ with tab2:
         dates = []
         value = []
         for section in quit_rates:
-            dates.append(section["periodName"] + " " + section["year"][2:]) 
+            dates.append(section["period"] + " " + section["year"][2:]) 
             value.append(section["value"])
         df = pd.DataFrame({"period": dates, "value": value})
         df = df.set_index("period")

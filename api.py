@@ -5,7 +5,7 @@ import sqlite3 as st
 def quit_rate_api():
     try:
         headers = {'Content-type': 'application/json'}
-        data = json.dumps({"seriesid": ['JTS000000000000000JOR'],"startyear":"2011", "endyear":"2014"})
+        data = json.dumps({"seriesid": ['JTS000000000000000JOR'],"startyear":"2020", "endyear":"2026"})
         p = requests.post('https://api.bls.gov/publicAPI/v2/timeseries/data/', data=data, headers=headers)
         json_data = json.loads(p.text)
     except requests.exceptions.RequestException:

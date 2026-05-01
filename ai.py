@@ -36,7 +36,7 @@ def ai_convo(education_level, salary, skill_one, skill_two, skill_three, query_r
                                             {skill_one}, {skill_two} and {skill_three}. The current jobs that came up for the
                                             user are {query_response}. You may discuss mention things like work environment 
                                             and job description. If a user asks about something else, politely bring the 
-                                            conversation back to careers.'''},
+                                            conversation back to careers. Do not disscuss anything that isn't career related'''},
                 *[{"role": m["role"], "content": m["content"]}
                     for m in st.session_state.messages]
             ],
