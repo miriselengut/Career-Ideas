@@ -102,6 +102,7 @@ with tab2:
     visual_skills = visual_skill_edu.keys()
     visual_education_needed = [edu for edu in visual_skill_edu.values()]
 
+
     df = pd.DataFrame(
         {
             "Skills": visual_skills,
@@ -115,13 +116,17 @@ with tab2:
     # st.subheader("🎓Average education needed by a job making $")
 
     st.space("medium")
-    rows = []
+    st.subheader("🛑 Average quit rates by period, according to the BSL", text_alignment = "center")
 
     quit_rates = quit_rate_api()
-    df = pd.DataFrame(quit_rates)
-    st.line_chart(df["value"])
-    # visual_skills = quit_rate_api.keys()
-    # visual_education_needed = [edu for edu in visual_skill_edu.values()]
+    dates = []
+    value = []
+    for section in quit_rates:
+        dates.append(section["periodName"] + " " + section["year"][2:]) 
+        value.append(section["value"])
+    df = pd.DataFrame({"period": dates, "value": value})
+    df = df.set_index("period")
+    st.scatter_chart(df)
 
 
 #endregion

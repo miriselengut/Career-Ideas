@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import AzureOpenAI
 
-def ai_convo():
+def ai_convo(education_level, salary, skill_one, skill_two, skill_three):
     openai_api_key = st.secrets["AZURE_OPENAI_API_KEY"]
     openai_api_endpoint = st.secrets["AZURE_OPENAI_ENDPOINT"]
 
@@ -29,9 +29,11 @@ def ai_convo():
         stream = client.chat.completions.create(
             model=st.secrets["AZURE_OPENAI_MODEL"],
             messages=[
-                {"role": "system", "content": ''' You are to help direct people to their proper career. 
-                                            You can discuss things like salary, (both realistic and idealistic), 
-                                            skill set and prior education. You may also mention things like work envoirment 
+                {"role": "system", "content": f''' You help guide people toward suitable career paths. 
+                                            You can discuss things like salary, whether or not it is realistic, 
+                                            skill set and previous education. The user's previous education consists of
+                                            {education_level}, wants a salary of {salary}, skill set includes
+                                            {skill_one}, {skill_two} and {skill_three}. You may discuss mention things like work environment 
                                             and job description. If a user asks about something else, politely bring the 
                                             conversation back to careers.'''},
                 *[{"role": m["role"], "content": m["content"]}

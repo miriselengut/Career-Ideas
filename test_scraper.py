@@ -17,5 +17,3 @@ def test_database_created():
 def test_database_loaded(db):
     row = db.execute("SELECT * FROM job_list LIMIT 1").fetchone()
     assert row is not None 
-
-

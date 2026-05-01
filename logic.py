@@ -10,10 +10,10 @@ def main():
     # load_db(data)
     # results = query_pipeline("No formal educational credential", 49500, "Adaptability", "Computers and information technology", "Creativity and innovation")
     # print (results)
-    results = return_data
-    print(results[1:4])
-    # results = query_average_education_by_salary(49500)
-    # print(results)
+    # results = return_data
+    # print(results[1:4])
+    results = query_average_skill_with_education("Bachelor's degree")
+    print(results)
 
 #region Skills Options
 all_skills = ["Adaptability", 
@@ -89,25 +89,25 @@ def query_average_education_by_salary(goal_salary):
                     """, 
                     (goal_salary, goal_salary))
     conn.commit()
-    results = dict(cur.fetchall())
+    results = cur.fetchall()
     return results
 
 def query_average_skill_with_education(education):
     conn = sqlite3.connect("/workspaces/Career-Ideas/job_list.db")
     cur = conn.cursor()
     with conn:
-        conn.execute("""
+        cur.execute("""
                     SELECT skill_one AS skill, 3 AS weight
                     FROM job_list
                     WHERE education_needed = ?
 
-                    UNION ALL 
+                    UNION 
 
                     SELECT skill_two AS skill, 2 AS weight
                     FROM job_list
                     WHERE education_needed = ?
 
-                    UNION ALL
+                    UNION
 
                     SELECT skill_three AS SKILL, 1 AS weight
                     FROM job_list
