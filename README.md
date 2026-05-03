@@ -54,26 +54,36 @@ python -m venv venv
 ```
 
 Activate:
+
+```
 # Mac/Linux
 source venv/bin/activate
 # Windows
 venv\Scripts\activate
+```
 
 ## 3️⃣ Install dependencies
+```
 pip install -r requirements.txt
+```
 
 ## 4️⃣ Add API keys
 Create a file:
+```
 .streamlit/secrets.toml
+```
 
 Then add:
+```
 AZURE_OPENAI_API_KEY = "your_api_key"
 AZURE_OPENAI_ENDPOINT = "your_endpoint"
 AZURE_OPENAI_MODEL = "your_model"
+```
 
 ## ▶️ Run the app
+```
 streamlit run app.py
-
+```
 ---
 
 # 🧪 Testing
@@ -87,10 +97,14 @@ This project uses pytest with mocking to test scraping, API handling, database l
 - Core job-matching logic
 
 ## ▶ Run tests
+```
 pytest -v
+```
 
 ## 📊 Run coverage
+```
 pytest --cov
+```
 
 ---
 
@@ -103,7 +117,7 @@ pytest --cov
 ---
 
 # 🧠 Project Structure
-
+```
 Career-Ideas/
 │
 ├── app.py              # Streamlit frontend
@@ -119,7 +133,7 @@ Career-Ideas/
 │
 ├── job_list.db
 └── requirements.txt
-
+```
 ---
 
 # 🚀 Deployment
