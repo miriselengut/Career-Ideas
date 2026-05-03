@@ -1,4 +1,5 @@
 # 💼 Career Ideas – Click Here to Open the App!
+👉 https://career-ideas.streamlit.app/
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)

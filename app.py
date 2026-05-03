@@ -6,21 +6,21 @@ from api import quit_rate_api
 
 #region Set up page
 st.set_page_config(page_title = "Career Ideas", page_icon = "💼", layout = "wide")
-st.title("Career Ideas!",)
+st.header("Need A Career Idea?",)
 
 
 #tabs
-tab1, tab2, tab3 = st.tabs(["Find a job!", "Get data", "Ask AI"])
+tab1, tab2, tab3 = st.tabs(["Find a Job", "Get The Data", "Ask AI"])
 
 #sidebar buttons
-st.sidebar.markdown("# Tell me about yourself!")
+st.sidebar.markdown("# Tell me about yourself, so I can assign you a job")
 salary = st.sidebar.slider("What salary would you like to be making?", 30160, 239200, 49500, 100, "$%,d")
 st.sidebar.space("xxsmall")
 
 education_level = st.sidebar.radio("What education do you have?", edu_level)
 st.sidebar.space("xxsmall")
 
-three_skills = st.sidebar.multiselect("Pick your 3 top skills", all_skills, max_selections=3)
+three_skills = st.sidebar.multiselect("Tell me your 3 top skills", all_skills, max_selections=3)
 
 # wait for input 
 if len(three_skills) != 3: 
