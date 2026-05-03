@@ -21,7 +21,9 @@ def ai_convo(education_level, salary, skill_one, skill_two, skill_three, query_r
         with st.chat_message(message["role"], avatar = "🕵️"):
             st.markdown(message["content"])
 
-    if prompt := st.chat_input(f"Ask me about a job that can make ${salary}, with {education_level.lower()}"):
+    prompt = st.chat_input(f"Ask me about a job that can make ${salary}, with {education_level.lower()}")
+
+    if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -46,3 +48,4 @@ def ai_convo(education_level, salary, skill_one, skill_two, skill_three, query_r
         with st.chat_message("assistant"):
             response = st.write_stream(stream)
         st.session_state.messages.append({"role": "assistant", "content": response})
+    
