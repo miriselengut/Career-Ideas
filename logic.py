@@ -90,13 +90,13 @@ def query_average_skill_with_education(education):
                     FROM job_list
                     WHERE education_needed = ?
 
-                    UNION 
+                    UNION ALL
 
                     SELECT skill_two AS skill, 2 AS weight
                     FROM job_list
                     WHERE education_needed = ?
 
-                    UNION
+                    UNION ALL
 
                     SELECT skill_three AS SKILL, 1 AS weight
                     FROM job_list

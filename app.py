@@ -14,14 +14,13 @@ tab1, tab2, tab3 = st.tabs(["Find a job!", "Get data", "Ask AI"])
 
 #sidebar buttons
 st.sidebar.markdown("# Tell me about yourself!")
-
-salary = st.sidebar.slider("Salary", 30160, 239200, 49500, 100, "$%d")
+salary = st.sidebar.slider("What salary would you like to be making?", 30160, 239200, 49500, 100, "$%,d")
 st.sidebar.space("xxsmall")
 
 education_level = st.sidebar.radio("What education do you have?", edu_level)
 st.sidebar.space("xxsmall")
 
-three_skills = st.sidebar.multiselect("Pick 3 skills that you have", all_skills, max_selections=3)
+three_skills = st.sidebar.multiselect("Pick your 3 top skills", all_skills, max_selections=3)
 
 # wait for input 
 if len(three_skills) != 3: 
@@ -63,11 +62,11 @@ with tab1:
 
     with colbtn1:
         st.space("xxlarge")
-        prev = st.button("◀️ Prev")
+        prev = st.button(":material/arrow_back_ios:")
 
     with colbtn3:
         st.space("xxlarge")
-        next = st.button("▶️ \n Next")
+        next = st.button(":material/arrow_forward_ios:")
 
     if prev:
             st.session_state.job_index = (st.session_state.job_index - 1) % len(job)
@@ -84,6 +83,14 @@ with tab1:
         with st.container(border = True):
             st.subheader(f"📌 {current_job.get('job_name')}", text_alignment="center")
             st.subheader(f"💰 ${(current_job.get('salary')):,}", text_alignment="center")
+            st.space("xsmall")
+            skill1, skill2, skill3 = st.columns([1, 1, 1])
+            with skill1:
+                st.markdown(f"**Highest Rated Skill:**  \n {current_job.get('skill_one')}")            
+            with skill2:
+                st.markdown(f"**Second Rated Skill:**  \n {current_job.get('skill_two')}")
+            with skill3:
+                st.markdown(f"**Third Rated Skill:**  \n {current_job.get('skill_three')}")
             st.markdown(f"**Job Description:** {current_job.get('description')}")
             st.markdown(f"**Work Environment:** {current_job.get('work_environment')}")
 
@@ -121,22 +128,25 @@ with tab2:
     if quit_btn:
         st.write("Don't get too excited...")
         st.subheader("🛑 Average quit rates by period, according to the U.S. Bureau of Labor Statistics", text_alignment = "center")
+        st.space("small")
 
         quit_rates = quit_rate_api()
+        quit_rate_api().sort(key=lambda x: (int(x["year"]), int(x["period"][1:]))) 
         dates = []
         value = []
+
         for section in quit_rates:
             dates.append(section["period"] + " " + section["year"][2:]) 
-            value.append(section["value"])
-        df = pd.DataFrame({"period": dates, "value": value})
-        df = df.set_index("period")
-        st.scatter_chart(df)
+            value.append(float(section["value"]))
+
+        df = pd.DataFrame({"dates": dates, "value": value})
+
+        st.scatter_chart(df, x="dates", y="value", x_label = "Dates", y_label = "Quit Rates")
 
 
 #endregion
 
 #region AI Conva (Tab 3)
 with tab3:
-    st.space("medium")
     ai_convo(education_level, salary, skill_one, skill_two, skill_three, filtered_data)
 #endregion
