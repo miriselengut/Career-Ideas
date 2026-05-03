@@ -25,7 +25,7 @@ def create_table():
     conn.close()
 
 def load_db(data):
-    conn = sqlite3.connect("/workspaces/Career-Ideas/job_list.db")
+    conn = sqlite3.connect("job_list.db")
     cur = conn.cursor()
 
     for item in data:
