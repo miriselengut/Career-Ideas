@@ -25,11 +25,11 @@ three_skills = st.sidebar.multiselect("Tell me your 3 top skills", all_skills, m
 # wait for input 
 if len(three_skills) != 3: 
     with tab1:
-        st.write("Fill out the info in the side bar, so we can get started!")
+        st.write("Use the side bar to tell me about yourself, so we can get started")
     with tab2:
-        st.write("Fill out the info in the side bar, so we can get started!")
+        st.write("Use the side bar to tell me about yourself, so we can get started")
     with tab3:
-        st.write("Fill out the info in the side bar, so we can get started!")
+        st.write("Use the side bar to tell me about yourself, so we can get started")
     st.stop()
 
 if not education_level:
