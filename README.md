@@ -165,4 +165,4 @@ Deploy on Streamlit Cloud:
 # 👨‍💻 Author
 
 Miri Selengut
-GitHub: https://github.com/miriselengut
+- GitHub: https://github.com/miriselengut
