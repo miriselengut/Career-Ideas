@@ -1,7 +1,4 @@
-from db import create_table, load_db
-from scrap import scrape, get_data, return_data
 import sqlite3
-import streamlit as st
 
 
 #region Skills Options
