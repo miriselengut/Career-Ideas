@@ -49,7 +49,9 @@ User data (education, salary, skills, and job results) is sent as context to the
 # 🛠️ Setup & Run Instructions
 
 ## 2️⃣ Create virtual environment
+```bash
 python -m venv venv
+```
 
 Activate:
 # Mac/Linux
