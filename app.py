@@ -110,27 +110,28 @@ with tab1:
 #region Get Visuals (Tab 2)
 with tab2:
     edu = 1 if education_level != ("No formal educational credential" and "Some college, no degree") else None
+    #change wording based on job
     st.subheader("🛠️ Average skills needed in a job with" + ((" a " + f"{education_level.lower()}") if edu else (f" {education_level.lower()}")), text_alignment="center")
     visual_skill_edu = query_average_skill_with_education(education_level)
     visual_skills = visual_skill_edu.keys()
     visual_education_needed = [edu for edu in visual_skill_edu.values()]
-
-
     df = pd.DataFrame(
         {
             "Skills": visual_skills,
             "Average amount needed": visual_education_needed
         })
-
     st.bar_chart(df, x = "Skills", y = "Average amount needed")
     st.space("medium")
+
     quit_btn = st.button("Okay, so you have a job?", icon = "🤔")
+    #API visual chart
     if quit_btn:
         st.write("Don't get too excited...")
         st.subheader("🛑 Average quit rates by period, according to the U.S. Bureau of Labor Statistics", text_alignment = "center")
         st.space("small")
 
         quit_rates = quit_rate_api()
+        #sort data
         quit_rate_api().sort(key=lambda x: (int(x["year"]), int(x["period"][1:]))) 
         dates = []
         value = []
@@ -140,7 +141,6 @@ with tab2:
             value.append(float(section["value"]))
 
         df = pd.DataFrame({"dates": dates, "value": value})
-
         st.scatter_chart(df, x="dates", y="value", x_label = "Dates", y_label = "Quit Rates")
 
 

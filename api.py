@@ -13,14 +13,14 @@ def quit_rate_api():
     if "message" in json_data and json_data["message"]:
         #if called too many time, can't reach api, return table to build on code until limit resets
         st.Error("API limit reach for the day. Try again later")
-        return [{'year': '2025', 'period': 'M12', 'periodName': 'December', 'value': '4.0'},
-                {'year': '2025', 'period': 'M11', 'periodName': 'November', 'value': '4.1'}, 
-                {'year': '2025', 'period': 'M10', 'periodName': 'October', 'value': '4.3'}, 
-                {'year': '2025', 'period': 'M09', 'periodName': 'September', 'value': '4.3'}, 
-                {'year': '2025', 'period': 'M08', 'periodName': 'August', 'value': '4.2'}, 
-                {'year': '2025', 'period': 'M07', 'periodName': 'July', 'value': '4.3'}, 
-                {'year': '2025', 'period': 'M06', 'periodName': 'June', 'value': '4.3'}, 
-                {'year': '2025', 'period': 'M05', 'periodName': 'May', 'value': '4.4'}
+        return [{'year': '2025', 'period': 'M12','value': '4.0'},
+                {'year': '2025', 'period': 'M11', 'value': '4.1'}, 
+                {'year': '2025', 'period': 'M10', 'value': '4.3'}, 
+                {'year': '2025', 'period': 'M09', 'value': '4.3'}, 
+                {'year': '2025', 'period': 'M08', 'value': '4.2'}, 
+                {'year': '2025', 'period': 'M07', 'value': '4.3'}, 
+                {'year': '2025', 'period': 'M06', 'value': '4.3'}, 
+                {'year': '2025', 'period': 'M05', 'value': '4.4'}
                 ]
     data_table = []
     try:
@@ -28,7 +28,7 @@ def quit_rate_api():
             for item in series['data']:
                 info = {
                     "year": item['year'], 
-                    "period": item['periodName'], 
+                    "period": item['period'], 
                     "value": item['value']
                 }
                 data_table.append(info)
