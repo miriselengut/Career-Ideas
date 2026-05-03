@@ -82,7 +82,7 @@ def query_pipeline(current_education, goal_salary, skill_one, skill_two, skill_t
 
 
 def query_average_skill_with_education(education):
-    conn = sqlite3.connect("/workspaces/Career-Ideas/job_list.db")
+    conn = sqlite3.connect("job_list.db")
     cur = conn.cursor()
     with conn:
         cur.execute("""

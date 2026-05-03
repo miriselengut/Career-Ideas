@@ -1,9 +1,0 @@
-streamlit
-requests
-beautifulsoup4
-pandas
-pytest
-pytest-cov
-openai
-altair
-toml
